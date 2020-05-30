@@ -25,7 +25,9 @@ class Link extends AbstractViewHelper
             return '';
         }
 
-        if ($this->get)
+        if ($_SERVER['REQUEST_URI'] === $routes[$routeName]['path']) {
+            $attributes['class'] = $attributes['class'] ?? '' . ' active';
+        }
 
         $attributeString  = '';
         $attributePattern = ' %s="%s" ';
