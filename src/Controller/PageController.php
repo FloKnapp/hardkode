@@ -26,11 +26,13 @@ class PageController extends AbstractController
 
             $articleList = $this->getEntityManager()
                 ->fetch(Article::class)
-                ->where('name', '=', 'Faulancer')
-                ->one();
+                ->orderBy('insertedAt', 'DESC')
+                ->all(5);
 
         } catch (IncompletePrimaryKey | NoEntity $e) {
-            $this->getLogger()->critical($e->getMessage(), ['exception' => $e]);
+            $this->getLogger()->error($e->getMessage(), ['exception' => $e]);
+        } catch (\Throwable $t) {
+            $this->getLogger()->critical($t->getMessage(), ['exception' => $t]);
         }
 
         return $this->render('/page/index.phtml', [

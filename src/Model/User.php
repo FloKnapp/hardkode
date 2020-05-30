@@ -13,4 +13,8 @@ class User extends Entity
 
     protected static $tableName = 'hk_user';
 
+    protected static $relations = [
+        'articles' => [Comment::class, 'article']
+    ];
+
 }

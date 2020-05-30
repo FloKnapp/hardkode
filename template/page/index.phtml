@@ -1,3 +1,8 @@
+<?php
+/**
+ * @var Hardkode\Model\Article[] $articleList
+ */
+?>
 <?php $this->layout('/layout.phtml') ?>
 
 <?php $this->block('title') ?>
@@ -20,6 +25,15 @@ Startseite
     </div>
 
     <h2>Neueste Einträge</h2>
+
+    <?php
+
+    /** @var \Hardkode\Model\Article $article */
+    foreach ($articleList as $article) {
+        echo $article->getTitle() . '<br />';
+    }
+
+    ?>
 
 </div>
 
