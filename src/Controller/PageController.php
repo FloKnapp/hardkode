@@ -2,7 +2,10 @@
 
 namespace Hardkode\Controller;
 
+use Hardkode\Model\Article;
 use Hardkode\Model\User;
+use ORM\Exception\IncompletePrimaryKey;
+use ORM\Exception\NoEntity;
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -17,11 +20,22 @@ class PageController extends AbstractController
      */
     public function index()
     {
-        $result = $this->getEntityManager()->fetch(User::class)->where('name', '=', 'Faulancer')->one();
+        $articleList = [];
 
-        var_dump($result);
+        try {
 
-        return $this->render('/page/index.phtml');
+            $articleList = $this->getEntityManager()
+                ->fetch(Article::class)
+                ->where('name', '=', 'Faulancer')
+                ->one();
+
+        } catch (IncompletePrimaryKey | NoEntity $e) {
+            $this->getLogger()->critical($e->getMessage(), ['exception' => $e]);
+        }
+
+        return $this->render('/page/index.phtml', [
+            'articleList' => $articleList
+        ]);
     }
 
     /**
