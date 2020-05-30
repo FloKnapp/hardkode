@@ -44,7 +44,7 @@ h1,h2,h3,h4,h5,h6 {
 }
 
 h1 { font-size: var(--font-size-headline); }
-h2 { font-size: var(--font-size-subheadline); }
+h2 { font-size: var(--font-size-subheadline); margin: 40px 0; }
 h3 { font-size: var(--font-size-subheadline); }
 h4 { font-size: var(--font-size-default); }
 

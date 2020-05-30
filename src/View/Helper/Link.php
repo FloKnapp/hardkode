@@ -25,6 +25,8 @@ class Link extends AbstractViewHelper
             return '';
         }
 
+        if ($this->get)
+
         $attributeString  = '';
         $attributePattern = ' %s="%s" ';
 

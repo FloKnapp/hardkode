@@ -242,7 +242,7 @@ class Renderer
             throw new TemplateException($e->getMessage(), 0, $e);
         }
 
-        if (ob_get_length() > 0) {
+        if (ob_get_level() > 0) {
             $this->logger->debug('Detected still open output buffering, closing.');
             ob_end_clean();
         }

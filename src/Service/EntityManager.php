@@ -18,10 +18,17 @@ class EntityManager extends ORMEntityManager
      */
     public function __construct(array $options = [])
     {
+        var_dump("Hallo");
+
         if (empty($options)) {
+
             $options = [
-                EntityManager::OPT_CONNECTION => ['sqlite', __DIR__ . '/../../database/db.sqlite']
+                EntityManager::OPT_CONNECTION => [
+                    'sqlite',
+                    __DIR__ . '/../../database/db.sqlite'
+                ]
             ];
+
         }
 
         parent::__construct($options);

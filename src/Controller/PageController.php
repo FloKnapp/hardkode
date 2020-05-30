@@ -17,13 +17,9 @@ class PageController extends AbstractController
      */
     public function index()
     {
-        echo "Hallo";
-
         $result = $this->getEntityManager()->fetch(User::class)->where('name', '=', 'Faulancer')->one();
 
         var_dump($result);
-
-
 
         return $this->render('/page/index.phtml');
     }
