@@ -2,6 +2,7 @@
 
 use Hardkode\Controller\PageController;
 use Hardkode\Controller\UserController;
+use Hardkode\Controller\AdminController;
 
 return [
     'index' => [
@@ -50,5 +51,35 @@ return [
         'class'  => UserController::class,
         'action' => 'register',
         'link'   => 'Registrieren'
+    ],
+    'admin:dashboard' => [
+        'path'   => '/admin',
+        'class'  => AdminController::class,
+        'action' => 'dashboard',
+        'link'   => 'Dashboard'
+    ],
+    'admin:articles' => [
+        'path'   => '/admin/articles',
+        'class'  => AdminController::class,
+        'action' => 'articles',
+        'link'   => 'Artikelliste'
+    ],
+    'admin:article' => [
+        'path'   => '/admin/article/:id',
+        'class'  => AdminController::class,
+        'action' => 'article',
+        'link'   => 'Details'
+    ],
+    'admin:article:create' => [
+        'path'   => '/admin/article/create',
+        'class'  => AdminController::class,
+        'action' => 'articleCreate',
+        'link'   => 'Artikel erstellen'
+    ],
+    'admin:article:edit' => [
+        'path'   => '/admin/article/',
+        'class'  => AdminController::class,
+        'action' => 'articleCreate',
+        'link'   => 'Artikel editieren'
     ]
 ];
