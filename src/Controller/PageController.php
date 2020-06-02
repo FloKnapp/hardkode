@@ -84,6 +84,7 @@ class PageController extends AbstractController
      */
     public function addDefaultAssets()
     {
+        $this->getRenderer()->addStylesheet('/css/icon.css');
         $this->getRenderer()->addStylesheet('/css/main.css');
         $this->getRenderer()->addStylesheet('/css/navigation.css');
         $this->getRenderer()->addScript('/js/engine.js');

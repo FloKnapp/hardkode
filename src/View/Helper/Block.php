@@ -20,6 +20,7 @@ class Block extends AbstractViewHelper
         }
 
         $this->getView()->getParentView()->setVariable($name, 'init');
+        $this->getLogger()->debug('Opening output buffer for block "' . $name . '".');
         ob_start();
     }
 

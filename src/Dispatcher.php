@@ -7,6 +7,7 @@ use Hardkode\Exception\MethodNotFoundException;
 use Hardkode\Exception\NotFoundException;
 use Hardkode\Service\EntityManager;
 use Hardkode\Service\Session;
+use Hardkode\Service\User;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
@@ -29,18 +30,23 @@ class Dispatcher
     /** @var EntityManager */
     private $em;
 
+    /** @var User */
+    private $user;
+
     /**
      * @param Config        $config
      * @param Logger        $logger
      * @param Session       $session
      * @param EntityManager $em
+     * @param User          $user
      */
-    public function __construct(Config $config, Logger $logger, Session $session, EntityManager $em)
+    public function __construct(Container $container)
     {
-        $this->config   = $config;
-        $this->logger   = $logger;
-        $this->session  = $session;
-        $this->em       = $em;
+        $this->config   = $container->get(Config::class);
+        $this->logger   = $container->get(Logger::class);
+        $this->session  = $container->get(Session::class);
+        $this->em       = $container->get(EntityManager::class);
+        $this->user     = $container->get(User::class);
     }
 
     /**
@@ -58,13 +64,23 @@ class Dispatcher
             throw new NotFoundException('No matching route for path "' . $request->getUri()->getPath() . '" found.');
         }
 
-        $controller = new $result['class']($request, $this->logger, $this->config, $this->session, $this->em);
+        $controller = $this->initializeClass($result['class']);
 
         if (!method_exists($controller, $result['action'])) {
             throw new MethodNotFoundException('Method "' . $result['action'] . '" not found in class "' . $result['class'] . '"');
         }
 
         return call_user_func_array([$controller, $result['action']], array_values($result['parameters']));
+    }
+
+    /**
+     * @param string $className
+     * @throws NotFoundException
+     */
+    private function initializeClass(string $className)
+    {
+
+
     }
 
     /**

@@ -2,6 +2,8 @@
 
 namespace Hardkode\Service;
 
+use Assert\Assert;
+
 /**
  * Class Session
  * @package Hardkode\Service
@@ -28,7 +30,7 @@ class Session
      */
     public function get(string $name)
     {
-        return $_SESSION[$name];
+        return $_SESSION[$name] ?? null;
     }
 
     /**
@@ -46,6 +48,30 @@ class Session
     public function delete(string $name)
     {
         unset($_SESSION[$name]);
+    }
+
+    /**
+     * @param string $name
+     * @return mixed|null
+     */
+    public function getFlashMessage(string $name)
+    {
+        $value = $_SESSION['flashbag'][$name] ?? null;
+
+        if (null !== $value) {
+            unset($_SESSION['flashbag'][$name]);
+        }
+
+        return $value;
+    }
+
+    /**
+     * @param string $name
+     * @param $value
+     */
+    public function setFlashMessage(string $name, $value)
+    {
+        $_SESSION['flashbag'][$name] = $value;
     }
 
 }

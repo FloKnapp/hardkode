@@ -19,6 +19,7 @@ class Layout extends AbstractViewHelper
     public function __invoke(string $template)
     {
         $parentRenderer = clone $this->getView();
+        $parentRenderer->reset();
         $parentRenderer->setTemplate($template);
 
         $this->getView()->setParentView($parentRenderer);

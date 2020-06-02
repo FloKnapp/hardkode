@@ -29,6 +29,12 @@ return [
         'action' => 'contact',
         'link'   => 'Kontakt'
     ],
+    'profile' => [
+        'path'   => '/profile',
+        'class'  => UserController::class,
+        'action' => 'profile',
+        'link'   => '<div id="user-profile-badge"><span class="font-small">Eingeloggt als</span><br />%s</div>'
+    ],
     'article' => [
         'path'   => '/article/:id',
         'class'  => PageController::class,

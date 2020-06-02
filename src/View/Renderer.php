@@ -7,6 +7,8 @@ use Hardkode\Config;
 use Hardkode\Exception\FileNotFoundException;
 use Hardkode\Exception\TemplateException;
 use Hardkode\Exception\ViewHelperException;
+use Hardkode\Service\Session;
+use Hardkode\Service\User;
 use Hardkode\View\Helper\AbstractViewHelper;
 
 /**
@@ -21,6 +23,12 @@ class Renderer
 
     /** @var Logger */
     private $logger;
+
+    /** @var Session */
+    private $session;
+
+    /** @var User */
+    private $user;
 
     /**
      * Holds the view template
@@ -42,13 +50,17 @@ class Renderer
 
     /**
      * Renderer constructor.
-     * @param Config $config
-     * @param Logger $logger
+     * @param Config  $config
+     * @param Logger  $logger
+     * @param Session $session
+     * @param User    $user
      */
-    public function __construct(Config $config, Logger $logger)
+    public function __construct(Config $config, Logger $logger, Session $session, User $user)
     {
-        $this->config = $config;
-        $this->logger = $logger;
+        $this->config  = $config;
+        $this->logger  = $logger;
+        $this->session = $session;
+        $this->user    = $user;
     }
 
     /**
@@ -226,9 +238,13 @@ class Renderer
     {
         try {
 
+            $content = '';
+
             extract($this->variables, EXTR_OVERWRITE);
 
             ob_start();
+
+            $this->logger->debug('Opening output buffering for template "' . $this->template . '"...');
 
             include $this->getTemplate();
 
@@ -236,15 +252,13 @@ class Renderer
 
             ob_end_clean();
 
-        } catch (\Exception $e) {
-            ob_end_clean();
-            $this->logger->error($e->getMessage(), ['exception' => $e]);
-            throw new TemplateException($e->getMessage(), 0, $e);
-        }
+            $this->logger->debug('Cleared output buffer for template "' . $this->template . '"...');
 
-        if (ob_get_level() > 0) {
-            $this->logger->debug('Detected still open output buffering, closing.');
-            ob_end_clean();
+        } catch (\Throwable $t) {
+            $this->logger->error($t->getMessage(), ['exception' => $t]);
+            throw new TemplateException($t->getMessage(), 0, $t);
+        } finally {
+            $this->clearOutputBuffer();
         }
 
         if ($this->getParentView() instanceof Renderer) {
@@ -253,6 +267,14 @@ class Renderer
 
         return $this->normalizeOutput($content);
 
+    }
+
+    private function clearOutputBuffer()
+    {
+        while (ob_get_level() > 0) {
+            $this->logger->debug('Detected still open output buffering, closing.');
+            ob_end_clean();
+        }
     }
 
     /**
@@ -272,7 +294,7 @@ class Renderer
         if (class_exists($viewHelper)) {
 
             /** @var AbstractViewHelper $class */
-            $class = new $viewHelper($this, $this->logger, $this->config);
+            $class = new $viewHelper($this, $this->logger, $this->config, $this->session, $this->user);
 
             return $this->_callUserFuncArray($class, $arguments);
 
@@ -295,11 +317,19 @@ class Renderer
     }
 
     /**
+     * @return void
+     */
+    public function reset()
+    {
+        unset($this->variables, $this->template);
+    }
+
+    /**
      * Destructor
      */
     public function __destruct()
     {
-        unset($this->variables, $this->template);
+        $this->reset();
     }
 
 }

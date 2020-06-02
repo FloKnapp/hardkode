@@ -17,7 +17,12 @@
             <?= $this->link('tutorials') ?>
             <?= $this->link('tools') ?>
             <?= $this->link('contact') ?>
-            <div id="user-profile-badge"></div>
+
+            <?php if ($this->session()->get('userId')): ?>
+                <?= $this->link('profile', [], $this->user()->getUsername()) ?>
+            <?php else: ?>
+                <?= $this->link('login') ?>
+            <?php endif; ?>
         </div>
     </header>
 

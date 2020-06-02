@@ -11,10 +11,11 @@ class Link extends AbstractViewHelper
     /**
      * @param string $routeName
      * @param array  $attributes
+     * @param string $linkTextAdditional
      *
      * @return string
      */
-    public function __invoke(string $routeName, array $attributes = [])
+    public function __invoke(string $routeName, array $attributes = [], $linkTextAdditional = '')
     {
         $routes   = $this->getConfig()->get('routes');
         $path     = $routes[$routeName]['path'] ?? null;
@@ -38,7 +39,7 @@ class Link extends AbstractViewHelper
 
         $attributeString = substr($attributeString, 1, strlen($attributeString) - 1);
 
-        return '<a href="' . $path . '" ' . $attributeString . '>' . $linkText . '</a>';
+        return '<a href="' . $path . '" ' . $attributeString . '>' . sprintf($linkText, $linkTextAdditional) . '</a>';
 
     }
 }

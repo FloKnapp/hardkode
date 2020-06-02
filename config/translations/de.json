@@ -1,0 +1,4 @@
+{
+  "form.field.empty": "Dieses Feld darf nicht leer sein.",
+  "form.csrf.invalid": "Es ist ein Problem aufgetreten, bitte laden Sie die Seite neu."
+}

@@ -1,13 +1,32 @@
+<?php
+/**
+ * @var \Hardkode\Form\Login $form
+ */
+?>
 <?php $this->layout('/layout.phtml') ?>
 
 <?php $this->block('content') ?>
 
-<div class="container stage">
-    Hallo
+<div class="container spaced">
+
+    <h1>Login</h1>
+
+    <?= $form->open() ?>
+
+        <?= $this->showMessage('form.error') ?>
+
+        <?= $form->getField('username') ?>
+        <?= $form->getField('username')->getErrorMessages() ?>
+
+        <?= $form->getField('password') ?>
+        <?= $form->getField('password')->getErrorMessages() ?>
+
+        <?= $form->getField('button') ?>
+
+        <?= $form->getField('csrf')->getErrorMessages() ?>
+
+    <?= $form->close() ?>
+
 </div>
-
-<div class="container spaced">Das ist ein Test</div>
-
-<div class="container spaced">Das ist ein zweiter Test</div>
 
 <?php $this->endBlock('content') ?>

@@ -7,6 +7,11 @@ use ORM\Entity;
 /**
  * Class Comment
  * @package Hardkode\Model
+ *
+ * @property int    $id
+ * @property int    $articleId
+ * @property int    $userId
+ * @property string $content
  */
 class Comment extends Entity
 {
