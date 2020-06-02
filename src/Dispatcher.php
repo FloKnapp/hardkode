@@ -3,6 +3,7 @@
 namespace Hardkode;
 
 use Apix\Log\Logger;
+use Hardkode\Exception\ContainerException;
 use Hardkode\Exception\MethodNotFoundException;
 use Hardkode\Exception\NotFoundException;
 use Hardkode\Service\EntityManager;
@@ -33,20 +34,17 @@ class Dispatcher
     /** @var User */
     private $user;
 
+    /** @var Container */
+    private $container;
+
     /**
-     * @param Config        $config
-     * @param Logger        $logger
-     * @param Session       $session
-     * @param EntityManager $em
-     * @param User          $user
+     * @param Config $config
+     * @param Logger $logger
      */
-    public function __construct(Container $container)
+    public function __construct(Config $config, Logger $logger)
     {
-        $this->config   = $container->get(Config::class);
-        $this->logger   = $container->get(Logger::class);
-        $this->session  = $container->get(Session::class);
-        $this->em       = $container->get(EntityManager::class);
-        $this->user     = $container->get(User::class);
+        $this->config = $config;
+        $this->logger = $logger;
     }
 
     /**
@@ -55,6 +53,7 @@ class Dispatcher
      *
      * @throws MethodNotFoundException
      * @throws NotFoundException
+     * @throws \ReflectionException
      */
     public function forward(RequestInterface $request)
     {
@@ -64,23 +63,13 @@ class Dispatcher
             throw new NotFoundException('No matching route for path "' . $request->getUri()->getPath() . '" found.');
         }
 
-        $controller = $this->initializeClass($result['class']);
+        $controller = Initializer::load($result['class']);
 
         if (!method_exists($controller, $result['action'])) {
             throw new MethodNotFoundException('Method "' . $result['action'] . '" not found in class "' . $result['class'] . '"');
         }
 
         return call_user_func_array([$controller, $result['action']], array_values($result['parameters']));
-    }
-
-    /**
-     * @param string $className
-     * @throws NotFoundException
-     */
-    private function initializeClass(string $className)
-    {
-
-
     }
 
     /**

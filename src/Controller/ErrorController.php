@@ -37,11 +37,13 @@ EXCEPTION;
 
         if ($t instanceof PermissionException) {
             echo (string)$this->render('/error/403.phtml')->getBody();
+            $this->getLogger()->error($t->getMessage());
             exit(0);
         }
 
         if ($t instanceof NotFoundException) {
             echo (string)$this->render('/error/404.phtml')->getBody();
+            $this->getLogger()->error($t->getMessage());
             exit(0);
         }
 

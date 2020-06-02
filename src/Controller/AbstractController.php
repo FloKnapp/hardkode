@@ -8,6 +8,7 @@ use Assert\Assertion;
 use Hardkode\Config;
 use Hardkode\Exception\PermissionException;
 use Hardkode\Form\Builder\AbstractBuilder;
+use Hardkode\Initializer;
 use Hardkode\Model\Role;
 use Hardkode\Service\EntityManager;
 use Hardkode\Service\RequestAwareInterface;
@@ -25,10 +26,8 @@ use Psr\Http\Message\ResponseInterface;
  * Class AbstractController
  * @package Hardkode\Controller
  */
-abstract class AbstractController implements RequestAwareInterface
+abstract class AbstractController
 {
-
-    use RequestAwareTrait;
 
     /** @var RequestInterface */
     private $request;
@@ -51,8 +50,13 @@ abstract class AbstractController implements RequestAwareInterface
     /** @var array */
     private $renderer = [];
 
-    public function __construct()
+    public function __construct(RequestInterface $request, Config $config, Logger $logger, EntityManager $entityManager, Session $session)
     {
+        $this->request = $request;
+        $this->config  = $config;
+        $this->logger  = $logger;
+        $this->em      = $entityManager;
+        $this->session = $session;
     }
 
     /**
@@ -135,7 +139,7 @@ abstract class AbstractController implements RequestAwareInterface
     public function createForm(string $className)
     {
         Assert::that($className)->classExists();
-        return new $className($this->getRequest(), $this->getLogger(), $this->getSession());
+        return Initializer::load($className);
     }
 
     /**
@@ -146,7 +150,7 @@ abstract class AbstractController implements RequestAwareInterface
         $identifier = get_called_class();
 
         if (empty($this->renderer[$identifier])) {
-            $renderer = new Renderer($this->config, $this->logger, $this->session, $this->user);
+            $renderer = Initializer::load(Renderer::class);
             $this->renderer[$identifier] = $renderer;
         }
 

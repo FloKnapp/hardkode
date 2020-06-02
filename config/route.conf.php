@@ -25,20 +25,20 @@ return [
     ],
     'contact' => [
         'path'   => '/contact',
-        'class'  => UserController::class,
+        'class'  => PageController::class,
         'action' => 'contact',
         'link'   => 'Kontakt'
+    ],
+    'article' => [
+        'path'   => '/article/:id',
+        'class'  => PageController::class,
+        'action' => 'article'
     ],
     'profile' => [
         'path'   => '/profile',
         'class'  => UserController::class,
         'action' => 'profile',
         'link'   => '<div id="user-profile-badge"><span class="font-small">Eingeloggt als</span><br />%s</div>'
-    ],
-    'article' => [
-        'path'   => '/article/:id',
-        'class'  => PageController::class,
-        'action' => 'article'
     ],
     'login' => [
         'path'   => '/login',
