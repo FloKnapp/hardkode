@@ -38,7 +38,7 @@ class Input extends AbstractType
         }
 
         foreach ($this->definition as $attribute => $value) {
-            $result .= sprintf(' %s="%s"', $attribute, $value);
+            $result .= sprintf(' %s="%s"', $attribute, $this->getTranslator()->translate($value));
         }
 
         $result .= ' />';

@@ -8,7 +8,6 @@ namespace Hardkode\View\Helper;
  */
 class ShowMessage extends AbstractViewHelper
 {
-
     /**
      * @param string $id
      *
@@ -16,7 +15,13 @@ class ShowMessage extends AbstractViewHelper
      */
     public function __invoke(string $id)
     {
-        return $this->getSession()->getFlashMessage($id);
+        $message = $this->getSession()->getFlashMessage($id);
+
+        if (null === $message) {
+            return null;
+        }
+
+        return $this->getTranslator()->translate($message);
     }
 
 }

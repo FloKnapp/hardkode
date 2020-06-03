@@ -1,4 +1,8 @@
 {
-  "form.field.empty": "Dieses Feld darf nicht leer sein.",
-  "form.csrf.invalid": "Es ist ein Problem aufgetreten, bitte laden Sie die Seite neu."
+  "form.field.empty": "<i class='icon-error_outline'></i> <span>Dieses Feld darf nicht leer sein.</span>",
+  "form.csrf.invalid": "Es ist ein Problem aufgetreten, bitte laden Sie die Seite neu.",
+  "login.fail": "Nutzer unbekannt oder Passwort falsch.",
+  "form.field.placeholder.username": "Nutzername oder E-Mail",
+  "form.field.placeholder.password": "Passwort",
+  "form.button.login.text": "Login"
 }

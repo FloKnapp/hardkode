@@ -1,0 +1,107 @@
+#login {
+    border: 1px solid var(--bg-dark);
+    padding: 30px;
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto;
+}
+
+#login h2 {
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+input {
+    font-family: inherit;
+    font-size: 0.8rem;
+    padding: 15px;
+    border: 1px solid var(--bg-dark);
+    width: 100%;
+    box-sizing: border-box;
+}
+
+input[type="password"] {
+    -webkit-text-security: square;
+}
+
+input.focus {
+    z-index: 2;
+    position: relative;
+}
+
+input.error {
+    border: 1px solid darkred;
+    box-shadow: 0 0 5px rgba(255, 0, 0, 0.41);
+}
+
+.grid.vertical input {
+    margin: 10px 0;
+}
+
+.grid.vertical input[name="username"] {
+    margin-top: 0;
+}
+
+.grid.vertical input[name="password"] {
+    margin-bottom: 0;
+}
+
+.error-message {
+    margin-bottom: 10px;
+    padding: 0;
+    display: inline-block;
+    font-size: 0.7rem;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+button {
+    font-family: inherit;
+    padding: 15px 25px;
+    border: 1px solid rgba(0,0,0,0.3);
+    background-color: var(--bg-dark);
+    color: var(--font-light);
+    font-size: 0.7rem;
+    width: 100%;
+    transform: translateX(-50%);
+    left: 50%;
+    position: relative;
+    cursor: pointer;
+    transition: color 0.3s, text-shadow 0.3s 0.3s;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+button:hover {
+    color: var(--accent-color);
+    text-shadow: 0 0 5px var(--accent-color);
+}
+
+.error-message-dynamic {
+    position: absolute;
+    font-size: 0.6rem;
+    overflow: hidden;
+    background-color: var(--bg-light);
+    color: var(--font-dark);
+    box-sizing: border-box;
+    z-index: 2;
+    height: auto;
+    transition: height 0.3s;
+    width: 100%;
+}
+
+.error-message-dynamic i {
+    display: inline-block;
+    font-size: 0.9rem;
+    position: relative;
+    bottom: -2px;
+    left: 2px;
+}
+
+.error-message-dynamic span {
+    display: inline-block;
+    padding: 5px 10px;
+}

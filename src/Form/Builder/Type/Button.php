@@ -21,7 +21,7 @@ class Button extends AbstractType
 
     public function render()
     {
-        return '<button>' . $this->definition['text'] . '</button>';
+        return '<button>' . $this->getTranslator()->translate($this->definition['text']) . '</button>';
     }
 
 }

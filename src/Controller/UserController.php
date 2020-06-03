@@ -15,10 +15,8 @@ use Psr\Log\LoggerAwareTrait;
  * Class UserController
  * @package Hardkode\Controller
  */
-class UserController extends PageController implements LoggerAwareInterface
+class UserController extends PageController
 {
-
-    use LoggerAwareTrait;
 
     /**
      * @return ResponseInterface
@@ -45,13 +43,14 @@ class UserController extends PageController implements LoggerAwareInterface
 
             if (null === $user) {
                 $this->getSession()->setFlashMessage('form.error', 'login.fail');
+                return $this->redirect('login');
             }
 
             $this->getSession()->set('userRole', $user->roles[0]->name);
             $this->getSession()->set('userName', $user->name);
             $this->getSession()->set('userId', $user->id);
 
-            $this->redirect($this->getSession()->get('referer') ?? '/');
+            return $this->redirect($this->getSession()->get('referer') ?? '/');
 
         }
 

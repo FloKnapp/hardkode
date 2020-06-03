@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Hardkode;
 
 use Hardkode\Exception\ContainerException;
@@ -27,7 +26,7 @@ class Container implements ContainerInterface
         $item = $this->items[$id] ?? null;
 
         if (null === $item) {
-            throw new NotFoundException('Requested item "' . $id . '" not found in Container.');
+            throw new NotFoundException('Requested item "' . $id . '" not found in Container. Class: ' . get_called_class());
         }
 
         return $this->items[$id];

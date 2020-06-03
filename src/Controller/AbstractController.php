@@ -139,7 +139,9 @@ abstract class AbstractController
     public function createForm(string $className)
     {
         Assert::that($className)->classExists();
-        return Initializer::load($className);
+        /** @var AbstractBuilder $form */
+        $form = Initializer::load($className, [$this->request]);
+        return $form->build();
     }
 
     /**
@@ -150,7 +152,7 @@ abstract class AbstractController
         $identifier = get_called_class();
 
         if (empty($this->renderer[$identifier])) {
-            $renderer = Initializer::load(Renderer::class);
+            $renderer = Initializer::load(Renderer::class, [$this->config]);
             $this->renderer[$identifier] = $renderer;
         }
 
@@ -210,7 +212,7 @@ abstract class AbstractController
             $path = $routeName;
         }
 
-        header('HTTP/2 307 Temporary redirect');
+        header('HTTP/2 302 Found');
         header('Location: ' . $path);
 
         return true;

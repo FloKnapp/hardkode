@@ -41,23 +41,23 @@ $creator      = new ServerRequestCreator(
 $request = $creator->fromGlobals();
 $container->set(Request::class, $request, [\Psr\Http\Message\RequestInterface::class]);
 
-$entityManager   = new EntityManager();
+$entityManager = Initializer::load(EntityManager::class);
 $container->set(EntityManager::class, $entityManager);
 
-$session    = new Session();
+$session = Initializer::load(Session::class);
 $container->set(Session::class, $session);
 
-$user       = new \Hardkode\Service\User($entityManager, $session);
+$user = Initializer::load(\Hardkode\Service\User::class, [$entityManager, $session]);
 $container->set(\Hardkode\Service\User::class, $user);
 
-$translator = new \Hardkode\Service\Translator('de');
+$translator = Initializer::load(\Hardkode\Service\Translator::class);
 $container->set(\Hardkode\Service\Translator::class, $translator);
 
-$errorController = Initializer::load(ErrorController::class);
+$errorController = Initializer::load(ErrorController::class, [$request, $config, $logger, $entityManager, $session]);
 set_error_handler([$errorController, 'onError']);
 set_exception_handler([$errorController, 'onException']);
 
-$dispatcher = Initializer::load(Dispatcher::class);
+$dispatcher = Initializer::load(Dispatcher::class, [$config]);
 $response   = $dispatcher->forward($request);
 
 if ($response instanceof ResponseInterface) {
@@ -71,7 +71,5 @@ if ($response instanceof ResponseInterface) {
     echo (string)$response->getBody();
     exit(0);
 }
-
-
 
 exit(1);

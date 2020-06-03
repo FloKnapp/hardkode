@@ -3,6 +3,11 @@
 namespace Hardkode;
 
 use Assert\Assert;
+use Hardkode\Exception\NotFoundException;
+use Hardkode\View\Helper\Block;
+use Hardkode\View\Helper\EndBlock;
+use Hardkode\View\Helper\RenderBlock;
+use Hardkode\View\Renderer;
 
 /**
  * Class Initializer
@@ -11,8 +16,14 @@ use Assert\Assert;
 class Initializer
 {
 
+    /** @var array */
+    private static $cache = [];
+
     /** @var Container */
     private static $container;
+
+    private const EXCLUDE_FROM_CACHE = [
+    ];
 
     /**
      * @param Container $container
@@ -32,11 +43,12 @@ class Initializer
 
     /**
      * @param string $className
+     * @param array  $constructorArgs
      * @return object
      *
      * @throws \ReflectionException
      */
-    public static function load(string $className): object
+    public static function load(string $className, $constructorArgs = []):? object
     {
         Assert::that($className)->classExists();
 
@@ -45,18 +57,38 @@ class Initializer
         $awareInterfaceDependencies   = self::extractAwareInterfaceDependencies($reflection->getInterfaces());
         $constructorDependencyObjects = [];
 
-        foreach ($constructorDependencies as $parameter => $constructorDependency) {
-            $constructorDependencyObjects[$parameter] = self::getContainer()->get($constructorDependency);
-        }
+//        foreach ($constructorDependencies as $parameter => $constructorDependency) {
+//
+//            try {
+//                $constructorDependencyObjects[$parameter] = self::getContainer()->get($constructorDependency);
+//            } catch (NotFoundException $e) {
+//                self::$cache[$constructorDependency] = Initializer::load($constructorDependency);
+//                $constructorDependencyObjects[$parameter] = self::$cache[$constructorDependency];
+//            }
+//
+//        }
 
-        $obj = $reflection->newInstanceArgs($constructorDependencyObjects);
+        $obj = $reflection->newInstanceArgs($constructorArgs);
 
         foreach ($awareInterfaceDependencies as $setter => $awareInterfaceDependency) {
-            $awareInterfaceDependencyObject = self::getContainer()->get($awareInterfaceDependency);
+
+            try {
+                $awareInterfaceDependencyObject = self::getContainer()->get($awareInterfaceDependency);
+            } catch (NotFoundException $e) {
+                self::$cache[$awareInterfaceDependency] = Initializer::load($awareInterfaceDependency);
+                $awareInterfaceDependencyObject = self::$cache[$awareInterfaceDependency];
+            }
+
             $obj->$setter($awareInterfaceDependencyObject);
+
         }
 
         return $obj;
+    }
+
+    private static function getConstructorDependencies()
+    {
+
     }
 
     /**
@@ -69,6 +101,11 @@ class Initializer
         $result = [];
 
         foreach ($parameters as $parameter) {
+
+            if (null === $parameter->getClass()) {
+                continue;
+            }
+
             $result[$parameter->getName()] = $parameter->getClass()->getName();
         }
 

@@ -34,7 +34,6 @@ EXCEPTION;
      */
     public function onException(\Throwable $t)
     {
-
         if ($t instanceof PermissionException) {
             echo (string)$this->render('/error/403.phtml')->getBody();
             $this->getLogger()->error($t->getMessage());

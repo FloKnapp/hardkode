@@ -2,33 +2,26 @@
 
 namespace Hardkode\View;
 
-use Apix\Log\Logger;
 use Hardkode\Config;
 use Hardkode\Exception\FileNotFoundException;
 use Hardkode\Exception\TemplateException;
 use Hardkode\Exception\ViewHelperException;
-use Hardkode\Service\Session;
-use Hardkode\Service\User;
+use Hardkode\Initializer;
+use Hardkode\Service\LoggerAwareInterface;
+use Hardkode\Service\LoggerAwareTrait;
 use Hardkode\View\Helper\AbstractViewHelper;
 
 /**
  * Class View
  * @package Hardkode
  */
-class Renderer
+class Renderer implements LoggerAwareInterface
 {
+
+    use LoggerAwareTrait;
 
     /** @var Config */
     private $config;
-
-    /** @var Logger */
-    private $logger;
-
-    /** @var Session */
-    private $session;
-
-    /** @var User */
-    private $user;
 
     /**
      * Holds the view template
@@ -50,17 +43,11 @@ class Renderer
 
     /**
      * Renderer constructor.
-     * @param Config  $config
-     * @param Logger  $logger
-     * @param Session $session
-     * @param User    $user
+     * @param Config     $config
      */
-    public function __construct(Config $config, Logger $logger, Session $session, User $user)
+    public function __construct(Config $config)
     {
         $this->config  = $config;
-        $this->logger  = $logger;
-        $this->session = $session;
-        $this->user    = $user;
     }
 
     /**
@@ -269,6 +256,9 @@ class Renderer
 
     }
 
+    /**
+     * @return void
+     */
     private function clearOutputBuffer()
     {
         while (ob_get_level() > 0) {
@@ -286,6 +276,7 @@ class Renderer
      * @return AbstractViewHelper
      *
      * @throws ViewHelperException
+     * @throws \ReflectionException
      */
     public function __call($name, $arguments)
     {
@@ -294,7 +285,7 @@ class Renderer
         if (class_exists($viewHelper)) {
 
             /** @var AbstractViewHelper $class */
-            $class = new $viewHelper($this, $this->logger, $this->config, $this->session, $this->user);
+            $class = Initializer::load($viewHelper, [$this, $this->config]);
 
             return $this->_callUserFuncArray($class, $arguments);
 

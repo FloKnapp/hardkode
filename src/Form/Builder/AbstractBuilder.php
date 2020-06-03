@@ -2,18 +2,24 @@
 
 namespace Hardkode\Form\Builder;
 
-use Apix\Log\Logger;
 use Hardkode\Form\Builder\Type\Csrf;
 use Hardkode\Form\Builder\Validator\Csrf as CsrfValidator;
-use Hardkode\Service\Session;
+use Hardkode\Initializer;
+use Hardkode\Service\LoggerAwareInterface;
+use Hardkode\Service\LoggerAwareTrait;
+use Hardkode\Service\SessionAwareInterface;
+use Hardkode\Service\SessionAwareTrait;
 use Psr\Http\Message\RequestInterface;
 
 /**
  * Class AbstractBuilder
  * @package Hardkode\Form\Builder
  */
-abstract class AbstractBuilder
+abstract class AbstractBuilder implements LoggerAwareInterface, SessionAwareInterface
 {
+
+    use LoggerAwareTrait;
+    use SessionAwareTrait;
 
     /** @var array */
     private $formAttributes = [
@@ -28,12 +34,6 @@ abstract class AbstractBuilder
     /** @var RequestInterface */
     private $request;
 
-    /** @var Logger */
-    private $logger;
-
-    /** @var Session */
-    private $session;
-
     /** @var array */
     private $data;
 
@@ -44,29 +44,30 @@ abstract class AbstractBuilder
      * AbstractBuilder constructor.
      *
      * @param RequestInterface $request
-     * @param Logger           $logger
-     * @param Session          $session
      */
-    public function __construct(RequestInterface $request, Logger $logger, Session $session)
+    public function __construct(RequestInterface $request)
     {
         $this->request = $request;
-        $this->logger  = $logger;
-        $this->session = $session;
-
         $this->formId = md5(get_called_class());
+    }
 
-        $this->create($request);
+    /**
+     * @return self
+     */
+    public function build()
+    {
+        $this->create($this->request);
 
         if ($this->request->getMethod() === 'GET') {
-            $session->delete('csrf_' . $this->getId());
+            $this->getSession()->delete('csrf_' . $this->getId());
             $this->appendCsrfToken();
         }
 
-        $this->setFormAttributes($request->getUri()->getPath());
+        $this->setFormAttributes($this->request->getUri()->getPath());
 
-        if ($request->getMethod() === 'POST') {
+        if ($this->request->getMethod() === 'POST') {
 
-            parse_str($request->getBody()->getContents(), $this->data);
+            parse_str($this->request->getBody()->getContents(), $this->data);
 
             foreach ($this->data as $name => $value) {
 
@@ -85,14 +86,19 @@ abstract class AbstractBuilder
 
         }
 
+        return $this;
     }
 
     /**
-     * @param AbstractType $field
+     * @param string $type
+     * @param array $definition
+     * @param array $validators
+     *
+     * @throws \ReflectionException
      */
-    protected function add(AbstractType $field)
+    protected function add(string $type, array $definition, array $validators = [])
     {
-        $this->fields[$field->getName()] = $field;
+        $this->fields[$definition['name']] = Initializer::load($type, [$definition, $validators]);
     }
 
     /**
@@ -135,10 +141,10 @@ abstract class AbstractBuilder
 
         $token = hash('sha256', uniqid());
 
-        $this->add(new Csrf([
+        $this->add(Csrf::class, [
             'value' => $token,
             'name'  => 'csrf'
-        ]));
+        ]);
 
         $this->session->set('csrf_' . $this->formId, $token);
 

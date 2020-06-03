@@ -19,7 +19,7 @@ class Translator
      * Translator constructor.
      * @param string $country
      */
-    public function __construct(string $country)
+    public function __construct(string $country = 'de')
     {
         $this->country = $country;
 
@@ -35,7 +35,7 @@ class Translator
      *
      * @return string
      */
-    public function translate(string $translationKey)
+    public function translate(string $translationKey = 'none')
     {
         return $this->translationData[$translationKey] ?? $translationKey;
     }

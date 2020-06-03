@@ -22,28 +22,31 @@ class Login extends AbstractBuilder
      */
     public function create(RequestInterface $request)
     {
-        $this->add(
-            new Input([
-                'type' => 'text',
-                'name' => 'username'
-                ], [
-                    NotEmpty::class
-                ])
-        );
-
-        $this->add(
-            new Input([
-                'type' => 'password',
-                'name' => 'password'
+        $this->add(Input::class,
+            [
+                'type'          => 'text',
+                'name'          => 'username',
+                'placeholder'   => 'form.field.placeholder.username',
+                'data-lpignore' => 'true'
             ], [
                 NotEmpty::class
-            ])
+            ]
         );
 
-        $this->add(new Button([
+        $this->add(Input::class, [
+                'type'          => 'password',
+                'name'          => 'password',
+                'placeholder'   => 'form.field.placeholder.password',
+                'data-lpignore' => 'true'
+            ], [
+                NotEmpty::class
+            ]
+        );
+
+        $this->add(Button::class, [
             'name' => 'button',
-            'text' => 'Hallo'
-        ]));
+            'text' => 'form.button.login.text'
+        ]);
     }
 
 }

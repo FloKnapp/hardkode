@@ -7,23 +7,30 @@ use Hardkode\Exception\ContainerException;
 use Hardkode\Exception\MethodNotFoundException;
 use Hardkode\Exception\NotFoundException;
 use Hardkode\Service\EntityManager;
+use Hardkode\Service\EntityManagerAwareInterface;
+use Hardkode\Service\EntityManagerAwareTrait;
 use Hardkode\Service\Session;
+use Hardkode\Service\SessionAwareInterface;
+use Hardkode\Service\SessionAwareTrait;
 use Hardkode\Service\User;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerAwareTrait;
 
 /**
  * Class Dispatcher
  * @package Hardkode
  */
-class Dispatcher
+class Dispatcher implements EntityManagerAwareInterface, LoggerAwareInterface, SessionAwareInterface
 {
+
+    use EntityManagerAwareTrait;
+    use SessionAwareTrait;
+    use LoggerAwareTrait;
 
     /** @var Config */
     private $config;
-
-    /** @var Logger */
-    private $logger;
 
     /** @var Session */
     private $session;
@@ -39,12 +46,10 @@ class Dispatcher
 
     /**
      * @param Config $config
-     * @param Logger $logger
      */
-    public function __construct(Config $config, Logger $logger)
+    public function __construct(Config $config)
     {
         $this->config = $config;
-        $this->logger = $logger;
     }
 
     /**
@@ -63,7 +68,7 @@ class Dispatcher
             throw new NotFoundException('No matching route for path "' . $request->getUri()->getPath() . '" found.');
         }
 
-        $controller = Initializer::load($result['class']);
+        $controller = Initializer::load($result['class'], [$request, $this->config, $this->logger, $this->getEntityManager(), $this->session]);
 
         if (!method_exists($controller, $result['action'])) {
             throw new MethodNotFoundException('Method "' . $result['action'] . '" not found in class "' . $result['class'] . '"');

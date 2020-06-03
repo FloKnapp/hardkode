@@ -3,21 +3,24 @@
 namespace Hardkode\Form\Builder;
 
 use Assert\Assert;
-use Hardkode\Service\Session;
+use Hardkode\Service\SessionAwareInterface;
+use Hardkode\Service\SessionAwareTrait;
 use Hardkode\Service\Translator;
+use Hardkode\Service\TranslatorAwareInterface;
+use Hardkode\Service\TranslatorAwareTrait;
 
 /**
  * Class AbstractType
  * @package Hardkode\Form\Builder
  */
-abstract class AbstractType
+abstract class AbstractType implements TranslatorAwareInterface, SessionAwareInterface
 {
+
+    use TranslatorAwareTrait;
+    use SessionAwareTrait;
 
     /** @var AbstractBuilder */
     protected $form;
-
-    /** @var Session */
-    protected $session;
 
     /** @var string */
     protected $name;
@@ -37,8 +40,8 @@ abstract class AbstractType
     /**
      * AbstractType constructor.
      *
-     * @param array           $definition
-     * @param array           $validators
+     * @param array $definition
+     * @param array $validators
      */
     public function __construct(array $definition, array $validators = [])
     {
@@ -47,14 +50,6 @@ abstract class AbstractType
         $this->name       = $definition['name'];
         $this->definition = $definition;
         $this->validators = $validators;
-    }
-
-    /**
-     * @param Session $session
-     */
-    public function setSession(Session $session)
-    {
-        $this->session = $session;
     }
 
     /**
@@ -114,6 +109,8 @@ abstract class AbstractType
             $validatorObj = new $validator($this, $this->session);
 
             if (false === $validatorObj->exec($this->getValue())) {
+                $this->definition['class'] = $this->definition['class'] . ' error';
+                $this->definition['data-error'] = $translator->translate($validatorObj->getErrorMessage());
                 $this->errorMessages[] = $translator->translate($validatorObj->getErrorMessage());
             }
 

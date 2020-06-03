@@ -9,23 +9,33 @@
 
 <div class="container spaced">
 
-    <h1>Login</h1>
+    <div id="login">
 
-    <?= $form->open() ?>
+        <h2>Login</h2>
 
-        <?= $this->showMessage('form.error') ?>
+        <hr />
 
-        <?= $form->getField('username') ?>
-        <?= $form->getField('username')->getErrorMessages() ?>
+        <?= $form->open() ?>
 
-        <?= $form->getField('password') ?>
-        <?= $form->getField('password')->getErrorMessages() ?>
+            <?= $this->showMessage('form.error') ?>
+            <?= $form->getField('csrf')->getErrorMessages() ?>
+            <div class="grid vertical">
+                <div class="width-100">
+                    <?= $form->getField('username') ?>
+                </div>
+                <div class="width-100">
+                    <?= $form->getField('password') ?>
+                </div>
+            </div>
 
-        <?= $form->getField('button') ?>
+            <hr />
 
-        <?= $form->getField('csrf')->getErrorMessages() ?>
+            <?= $form->getField('button') ?>
 
-    <?= $form->close() ?>
+        <?= $form->close() ?>
+
+    </div>
+
 
 </div>
 
