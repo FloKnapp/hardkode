@@ -48,7 +48,7 @@
 
 #user-profile-badge:after {
     font-family: "Icomoon", sans-serif;
-    content: "\e971";
+    content: "\e995";
     color: var(--bg-light);
     border-radius: 50%;
     padding: 7px;

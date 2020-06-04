@@ -202,9 +202,9 @@ abstract class AbstractController
     /**
      * @param string $routeName
      *
-     * @return bool
+     * @return ResponseInterface
      */
-    protected function redirect(string $routeName)
+    protected function redirect(string $routeName): ResponseInterface
     {
         $path = $this->getConfig()->get('routes')[$routeName]['path'] ?? null;
 
@@ -212,10 +212,9 @@ abstract class AbstractController
             $path = $routeName;
         }
 
-        header('HTTP/2 302 Found');
-        header('Location: ' . $path);
-
-        return true;
+        $psr17Factory = new Psr17Factory();
+        $response = $psr17Factory->createResponse(303);
+        return $response->withHeader('Location', $path);
     }
 
     /**

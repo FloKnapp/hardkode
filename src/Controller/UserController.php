@@ -4,12 +4,9 @@ namespace Hardkode\Controller;
 
 use Hardkode\Form\Login;
 use Hardkode\Model\User;
-use Nyholm\Psr7\Factory\Psr17Factory;
-use ORM\Exception\IncompletePrimaryKey;
 use ORM\Exception\NoEntity;
+use ORM\Exception\IncompletePrimaryKey;
 use Psr\Http\Message\ResponseInterface;
-use Psr\Log\LoggerAwareInterface;
-use Psr\Log\LoggerAwareTrait;
 
 /**
  * Class UserController
@@ -17,11 +14,10 @@ use Psr\Log\LoggerAwareTrait;
  */
 class UserController extends PageController
 {
-
     /**
      * @return ResponseInterface
      */
-    public function login()
+    public function login(): ResponseInterface
     {
         $loginForm = $this->createForm(Login::class);
 
@@ -60,9 +56,9 @@ class UserController extends PageController
     }
 
     /**
-     * @return void
+     * @return ResponseInterface
      */
-    public function logout()
+    public function logout(): ResponseInterface
     {
         $_SESSION['userName'] = 'xxx';
         $_SESSION['userId']   = 'xxx';
@@ -70,14 +66,20 @@ class UserController extends PageController
 
         unset($_SESSION['userName'], $_SESSION['userId'], $_SESSION['userRole']);
 
-        $this->redirect('/');
+        return $this->redirect('/');
     }
 
+    /**
+     * @return ResponseInterface
+     */
     public function register()
     {
-
+        return $this->render('/user/register.phtml');
     }
 
+    /**
+     * @return ResponseInterface
+     */
     public function profile()
     {
         return $this->render('/user/profile.phtml');

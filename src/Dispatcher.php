@@ -2,8 +2,6 @@
 
 namespace Hardkode;
 
-use Apix\Log\Logger;
-use Hardkode\Exception\ContainerException;
 use Hardkode\Exception\MethodNotFoundException;
 use Hardkode\Exception\NotFoundException;
 use Hardkode\Service\EntityManager;

@@ -3,13 +3,13 @@
 namespace Hardkode\View;
 
 use Hardkode\Config;
-use Hardkode\Exception\FileNotFoundException;
-use Hardkode\Exception\TemplateException;
-use Hardkode\Exception\ViewHelperException;
 use Hardkode\Initializer;
-use Hardkode\Service\LoggerAwareInterface;
 use Hardkode\Service\LoggerAwareTrait;
+use Hardkode\Exception\TemplateException;
+use Hardkode\Service\LoggerAwareInterface;
+use Hardkode\Exception\ViewHelperException;
 use Hardkode\View\Helper\AbstractViewHelper;
+use Hardkode\Exception\FileNotFoundException;
 
 /**
  * Class View
