@@ -2,6 +2,7 @@
 
 namespace Hardkode\Controller;
 
+use Hardkode\Form\Contact;
 use Hardkode\Model\Article;
 use Hardkode\Model\User;
 use ORM\Exception\IncompletePrimaryKey;
@@ -76,7 +77,15 @@ class PageController extends AbstractController
      */
     public function contact()
     {
-        return $this->render('/page/contact.phtml');
+        $form = $this->createForm(Contact::class);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            echo "Ja";
+        }
+
+        return $this->render('/page/contact.phtml', [
+            'form' => $form
+        ]);
     }
 
     /**

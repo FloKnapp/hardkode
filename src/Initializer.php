@@ -4,10 +4,6 @@ namespace Hardkode;
 
 use Assert\Assert;
 use Hardkode\Exception\NotFoundException;
-use Hardkode\View\Helper\Block;
-use Hardkode\View\Helper\EndBlock;
-use Hardkode\View\Helper\RenderBlock;
-use Hardkode\View\Renderer;
 
 /**
  * Class Initializer
@@ -21,9 +17,6 @@ class Initializer
 
     /** @var Container */
     private static $container;
-
-    private const EXCLUDE_FROM_CACHE = [
-    ];
 
     /**
      * @param Container $container
@@ -53,9 +46,9 @@ class Initializer
         Assert::that($className)->classExists();
 
         $reflection                   = new \ReflectionClass($className);
-        $constructorDependencies      = self::extractParameterDependencies($reflection->getConstructor()->getParameters());
+        //$constructorDependencies      = self::extractParameterDependencies($reflection->getConstructor()->getParameters());
         $awareInterfaceDependencies   = self::extractAwareInterfaceDependencies($reflection->getInterfaces());
-        $constructorDependencyObjects = [];
+        //$constructorDependencyObjects = [];
 
 //        foreach ($constructorDependencies as $parameter => $constructorDependency) {
 //

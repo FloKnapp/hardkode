@@ -1,6 +1,6 @@
 (function() {
 
-    document.querySelectorAll('input[data-error]').forEach((item) => {
+    document.querySelectorAll('input[data-error], textarea[data-error]').forEach((item) => {
 
         let dimmerActive = false;
 
@@ -9,26 +9,26 @@
             errorMessage: ''
         };
 
-        var events = {
+        const events = {
+
             onTransitionEnd: function() {
 
                 fields.dimmer.removeEventListener('transitionend', events.onTransitionEnd);
-                document.body.removeChild(fields.dimmer);
+                fields.dimmer.parentNode.removeChild(fields.dimmer);
 
                 document.querySelectorAll('.error-message-dynamic').forEach(function(item) {
                     item.parentNode.removeChild(item);
                 });
 
             }
+
         };
 
         item.addEventListener('mouseenter', function() {
 
             dimmerActive = true;
 
-            const message = `
-                <div class="error-message-dynamic"><span>${item.dataset.error}</span></div>
-            `;
+            const message = `<div class="error-message-dynamic"><span>${item.dataset.error}</span></div>`;
 
             const domMessage = new DOMParser();
             const errorMessage = domMessage.parseFromString(message, 'text/html').querySelector('div');
@@ -37,9 +37,7 @@
 
             errorMessage.style.top = item.offsetTop + item.offsetHeight + 1 + 'px';
 
-            const dimmer = `
-                <div id="dimmer"></div>
-            `;
+            const dimmer = `<div id="dimmer"></div>`;
 
             const domDimmer = new DOMParser();
             const dimmerOverlay = domDimmer.parseFromString(dimmer, 'text/html').getElementById('dimmer');
@@ -59,6 +57,12 @@
 
             const errorMessageHeight = errorMessage.getBoundingClientRect().height;
             errorMessage.style.height = '0';
+
+            const inputWidth = this.offsetWidth;
+            errorMessage.style.width = inputWidth - 2 + 'px';
+
+            const inputLeft = this.offsetLeft;
+            errorMessage.style.left = inputLeft + 1 + 'px';
 
             setTimeout(function() {
                 errorMessage.style.height = errorMessageHeight + 'px';

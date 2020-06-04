@@ -3,8 +3,8 @@
     padding: 30px;
     box-sizing: border-box;
     width: 100%;
-    max-width: 300px;
-    margin: 0 auto;
+    max-width: 340px;
+    margin: 30px auto;
 }
 
 #login h2 {
@@ -13,7 +13,7 @@
     text-align: center;
 }
 
-input {
+input, textarea, select {
     font-family: inherit;
     font-size: 0.8rem;
     padding: 15px;
@@ -26,12 +26,13 @@ input[type="password"] {
     -webkit-text-security: square;
 }
 
-input.focus {
+input.focus,
+textarea.focus {
     z-index: 2;
-    position: relative;
 }
 
-input.error {
+input.error,
+textarea.error {
     border: 1px solid darkred;
     box-shadow: 0 0 5px rgba(255, 0, 0, 0.41);
 }
@@ -56,6 +57,8 @@ input.error {
     position: absolute;
     left: 0;
     top: 0;
+    box-sizing: border-box;
+    flex: 0 0 0;
 }
 
 button {
@@ -104,4 +107,5 @@ button:hover {
 .error-message-dynamic span {
     display: inline-block;
     padding: 5px 10px;
+    box-sizing: border-box;
 }

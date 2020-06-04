@@ -129,6 +129,8 @@ hr {
     width: 100%;
     margin: 0 auto;
     max-width: var(--wrap-width);
+    position: relative;
+    box-sizing: border-box;
 }
 
 .spaced {
@@ -150,13 +152,25 @@ hr {
     justify-content: space-between;
 }
 
-.grid .width-100 {
+.grid.width-100 {
     width: 100%;
     position: relative;
 }
 
 .grid.vertical {
     flex-flow: column;
+}
+
+.grid.space-between {
+    justify-content: space-between;
+}
+
+.grid.space-between > * {
+    margin-right: 10px;
+}
+
+.grid.space-between > *:last-child {
+    margin-right: 0;
 }
 
 .personal-profile {

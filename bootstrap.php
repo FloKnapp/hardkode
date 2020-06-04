@@ -65,7 +65,7 @@ if ($response instanceof ResponseInterface) {
     $headers = $response->getHeaders();
 
     foreach ($headers as $name => $value) {
-        header($name . ': ' . $value);
+        header($name . ': ' . implode(';', $value));
     }
 
     echo (string)$response->getBody();

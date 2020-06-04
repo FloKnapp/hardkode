@@ -4,5 +4,10 @@
   "login.fail": "Nutzer unbekannt oder Passwort falsch.",
   "form.field.placeholder.username": "Nutzername oder E-Mail",
   "form.field.placeholder.password": "Passwort",
-  "form.button.login.text": "Login"
+  "form.field.placeholder.firstname": "Vorname",
+  "form.field.placeholder.lastname": "Nachname",
+  "form.field.placeholder.email": "E-Mail",
+  "form.field.placeholder.message": "Nachricht",
+  "form.button.login.text": "Login",
+  "form.button.send.text": "Senden"
 }

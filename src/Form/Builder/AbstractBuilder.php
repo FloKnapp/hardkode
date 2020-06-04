@@ -132,6 +132,8 @@ abstract class AbstractBuilder implements LoggerAwareInterface, SessionAwareInte
 
     /**
      * @return bool
+     *
+     * @throws \ReflectionException
      */
     protected function appendCsrfToken()
     {

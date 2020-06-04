@@ -1,3 +1,8 @@
+<?php
+/**
+ * @var \Hardkode\Form\Contact $form
+ */
+?>
 <?php $this->layout('/layout.phtml') ?>
 
 <?php $this->block('title') ?>
@@ -9,7 +14,30 @@ Kontakt
 <div class="container spaced">
     <h1>Kontaktierung</h1>
 
-    <
+    <?= $form->open() ?>
+
+    <div class="grid space-between">
+        <?= $form->getField('firstname') ?>
+        <?= $form->getField('lastname') ?>
+    </div>
+
+    <hr />
+
+    <div class="grid">
+        <?= $form->getField('email') ?>
+    </div>
+
+    <hr />
+
+    <div class="grid">
+        <?= $form->getField('message') ?>
+    </div>
+
+    <hr />
+
+    <?= $form->getField('submit') ?>
+
+    <?= $form->close() ?>
 </div>
 
 <?php $this->endBlock('content') ?>
