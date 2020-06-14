@@ -2,7 +2,7 @@
 
 namespace Hardkode\Controller;
 
-use Hardkode\Form\Login;
+use Hardkode\Form\LoginForm;
 use Hardkode\Model\User;
 use ORM\Exception\NoEntity;
 use ORM\Exception\IncompletePrimaryKey;
@@ -19,7 +19,7 @@ class UserController extends PageController
      */
     public function login(): ResponseInterface
     {
-        $loginForm = $this->createForm(Login::class);
+        $loginForm = $this->createForm(LoginForm::class);
 
         if ($loginForm->isSubmitted() && $loginForm->isValid()) {
 

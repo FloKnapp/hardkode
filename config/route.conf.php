@@ -44,7 +44,7 @@ return [
         'path'   => '/login',
         'class'  => UserController::class,
         'action' => 'login',
-        'link'   => 'Login'
+        'link'   => 'LoginForm'
     ],
     'logout' => [
         'path'   => '/logout',
@@ -68,13 +68,16 @@ return [
         'path'   => '/admin/articles',
         'class'  => AdminController::class,
         'action' => 'articles',
-        'link'   => 'Artikelliste'
+        'link'   => 'Artikel'
     ],
     'admin:article' => [
         'path'   => '/admin/article/:id',
         'class'  => AdminController::class,
         'action' => 'article',
-        'link'   => 'Details'
+        'link'   => '%s',
+        'constraints' => [
+            'id' => '\d+'
+        ]
     ],
     'admin:article:create' => [
         'path'   => '/admin/article/create',
@@ -83,9 +86,15 @@ return [
         'link'   => 'Artikel erstellen'
     ],
     'admin:article:edit' => [
-        'path'   => '/admin/article/',
+        'path'   => '/admin/article/:id/edit',
         'class'  => AdminController::class,
-        'action' => 'articleCreate',
+        'action' => 'articleEdit',
         'link'   => 'Artikel editieren'
+    ],
+    'admin:tools' => [
+        'path'   => '/admin/tools',
+        'class'  => AdminController::class,
+        'action' => 'tools',
+        'link'   => 'Tools'
     ]
 ];

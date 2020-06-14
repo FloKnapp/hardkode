@@ -12,6 +12,7 @@
         const events = {
 
             onTransitionEnd: function() {
+                console.log("Ja");
 
                 fields.dimmer.removeEventListener('transitionend', events.onTransitionEnd);
                 fields.dimmer.parentNode.removeChild(fields.dimmer);
@@ -46,10 +47,6 @@
 
             document.body.appendChild(dimmerOverlay);
 
-            setTimeout(function() {
-                dimmerOverlay.classList.add('active');
-            }, 1);
-
             this.parentNode.appendChild(errorMessage);
 
             this.classList.add('focus');
@@ -63,6 +60,10 @@
 
             const inputLeft = this.offsetLeft;
             errorMessage.style.left = inputLeft + 1 + 'px';
+
+            setTimeout(function() {
+                dimmerOverlay.classList.add('active');
+            }, 1);
 
             setTimeout(function() {
                 errorMessage.style.height = errorMessageHeight + 'px';

@@ -14,6 +14,8 @@
     --font-size-headline: 2rem;
     --font-size-subheadline: 1.6rem;
     --font-size-default: 1rem;
+    --font-size-small: 0.7rem;
+    --font-size-smaller: 0.6rem;
     --font-default: "Palanquin", sans-serif;
     --accent-color: yellowgreen;
 }
@@ -67,7 +69,6 @@ hr {
 #logo strong {
     font-weight: 900;
     color: yellowgreen;
-    text-shadow: 1px 1px 3px yellowgreen;
 }
 
 #dimmer {
@@ -194,6 +195,133 @@ hr {
     border: 1px solid var(--bg-dark);
     background-size: contain;
     background-repeat: no-repeat;
+}
+
+.box {
+    padding: 10px;
+    box-sizing: border-box;
+    margin-bottom: 15px;
+    background-color: var(--bg-dark);
+    color: var(--font-light);
+    display: flex;
+    align-items: center;
+}
+
+.box:last-child {
+    margin-bottom: 0;
+}
+
+.box span {
+    margin-right: 20px;
+}
+
+.table {
+    width: 100%;
+}
+
+.table tr:nth-child(odd) {
+    background-color: var(--bg-light);
+}
+
+.table th {
+    background-color: var(--bg-dark);
+    color: var(--font-light);
+    font-size: var(--font-size-small);
+}
+
+.table td {
+    padding: 5px;
+}
+
+.table td a.icon {
+    padding: 5px;
+    background-color: var(--bg-dark);
+    color: var(--font-light);
+    font-size: var(--font-size-small);
+    display: inline-block;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.table td a.icon:hover {
+    background-color: var(--bg-black);
+    color: #FFF;
+    transform: scale(1.1);
+}
+
+.ribbon {
+    display: inline-block;
+    padding: 3px 10px;
+    background-color: var(--bg-dark);
+    color: var(--bg-light);
+    font-size: var(--font-size-small);
+    position: relative;
+    border-radius: 5px;
+}
+
+.ribbon.add {
+    padding-left: 40px;
+}
+
+.ribbon.add:before {
+    content: "\ea0a";
+    font-family: "icomoon", sans-serif;
+    font-size: var(--font-size-smaller);
+    position: absolute;
+    left: 7px;
+    top: 7px;
+    width: 13px;
+    height: 13px;
+    background-color: var(--bg-light);
+    color: var(--bg-dark);
+    border-radius: 50%;
+    padding: 2px;
+    text-align: center;
+    z-index: 2;
+}
+
+.ribbon.add:after {
+    content: "";
+    background-color: #505050;
+    top: 0;
+    left: 0;
+    position: absolute;
+    width: 30px;
+    height: 100%;
+    z-index: 1;
+    border-radius: 4px 0 0 4px;
+    transition: background-color 0.3s;
+}
+
+.ribbon.add:hover:after {
+    background-color: var(--accent-color);
+}
+
+.pagination {
+    margin: 0 auto;
+    text-align: center;
+}
+
+.pagination .item {
+    display: inline-block;
+    min-width: 20px;
+    padding: 2px 5px;
+    border: 1px solid var(--bg-light);
+    border-right: none;
+    text-align: center;
+    font-size: var(--font-size-small);
+}
+
+.pagination .item.active {
+    background-color: var(--bg-dark);
+    color: var(--font-light);
+}
+
+.pagination .item:not(.active):hover {
+    background-color: var(--bg-light);
+}
+
+.pagination .item:last-child {
+    border-right: 1px solid var(--bg-light);
 }
 
 @keyframes flicker {

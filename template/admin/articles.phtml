@@ -1,0 +1,45 @@
+<?php
+/**
+ * @var \Hardkode\Model\Article[] $articles
+ * @var string $pagination
+ */
+?>
+<?php $this->layout('/layout_admin.phtml') ?>
+
+<?php $this->block('content') ?>
+    <div class="container spaced grid">
+        <h1>Artikel</h1>
+        <a class="ribbon add" style="float: right;" href="/admin/article/add">Artikel hinzufügen</a>
+    </div>
+
+    <div class="container spaced">
+
+        <table class="table default">
+            <tr>
+                <th>#</th>
+                <th>Titel</th>
+                <th>Author</th>
+                <th>Optionen</th>
+            </tr>
+
+        <?php foreach ($articles as $article): ?>
+
+            <tr>
+                <td style="text-align: center;"><?= $article->id ?></td>
+                <td><?= $article->title ?></td>
+                <td><?= $article->author->name ?></td>
+                <td style="text-align: right;">
+                    <a class="icon icon-pencil" href="/admin/article/<?= $article->id ?>/edit"></a>
+                    <a class="icon icon-bin" href="/admin/article/<?= $article->id ?>/delete"></a>
+                </td>
+            </tr>
+
+        <?php endforeach; ?>
+
+        </table>
+
+        <?= $pagination ?>
+
+    </div>
+
+<?php $this->endBlock('content') ?>

@@ -1,6 +1,6 @@
 <?php
 /**
- * @var \Hardkode\Form\Login $form
+ * @var \Hardkode\Form\LoginForm $form
  */
 ?>
 <?php $this->layout('/layout.phtml') ?>
@@ -19,6 +19,7 @@
 
             <?= $this->showMessage('form.error') ?>
             <?= $form->getField('csrf')->getErrorMessages() ?>
+
             <div class="grid vertical">
                 <div class="width-100">
                     <?= $form->getField('username') ?>

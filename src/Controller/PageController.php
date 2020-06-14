@@ -2,9 +2,8 @@
 
 namespace Hardkode\Controller;
 
-use Hardkode\Form\Contact;
+use Hardkode\Form\ContactForm;
 use Hardkode\Model\Article;
-use Hardkode\Model\User;
 use ORM\Exception\IncompletePrimaryKey;
 use ORM\Exception\NoEntity;
 use Psr\Http\Message\ResponseInterface;
@@ -27,7 +26,7 @@ class PageController extends AbstractController
 
             $articleList = $this->getEntityManager()
                 ->fetch(Article::class)
-                ->orderBy('insertedAt', 'DESC')
+                ->orderBy('id', 'DESC')
                 ->all(5);
 
         } catch (IncompletePrimaryKey | NoEntity $e) {
@@ -77,7 +76,7 @@ class PageController extends AbstractController
      */
     public function contact()
     {
-        $form = $this->createForm(Contact::class);
+        $form = $this->createForm(ContactForm::class);
 
         if ($form->isSubmitted() && $form->isValid()) {
             echo "Ja";
@@ -93,11 +92,15 @@ class PageController extends AbstractController
      */
     public function addDefaultAssets()
     {
+        $this->getRenderer()->addScript('/js/namespace.js');
+
+
+        $this->getRenderer()->addScript('/js/dropdown.js');
+        $this->getRenderer()->addScript('/js/hyperlink.js');
         $this->getRenderer()->addStylesheet('/css/main.css');
         $this->getRenderer()->addStylesheet('/css/form.css');
         $this->getRenderer()->addStylesheet('/css/icon.css');
         $this->getRenderer()->addStylesheet('/css/navigation.css');
-        $this->getRenderer()->addScript('/js/engine.js');
     }
 
 }

@@ -26,14 +26,18 @@ Startseite
 
     <h2>Neueste Einträge</h2>
 
-    <?php
+    <?php /** @var \Hardkode\Model\Article $article */
+    foreach ($articleList as $article): ?>
 
-    /** @var \Hardkode\Model\Article $article */
-    foreach ($articleList as $article) {
-        echo $article->getTitle() . '<br />';
-    }
+        <div class="box link" data-href="/article/<?= $article->id ?>">
+            <span class="font-small">
+                <?= $this->date($article->insertedAt)->format('d.m.Y - H:i') . ' Uhr' ?>
+            </span>
+            <span><?= $article->title ?></span>
+        </div>
 
-    ?>
+
+    <?php endforeach; ?>
 
 </div>
 

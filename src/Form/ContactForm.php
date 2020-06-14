@@ -11,7 +11,7 @@ use Hardkode\Form\Builder\Type\Textarea;
 use Hardkode\Form\Builder\Validator\NotEmpty;
 use Psr\Http\Message\RequestInterface;
 
-class Contact extends AbstractBuilder
+class ContactForm extends AbstractBuilder
 {
 
     public function create(RequestInterface $request)

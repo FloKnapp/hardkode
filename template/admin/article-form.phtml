@@ -1,0 +1,28 @@
+<?php
+/**
+ * @var \Hardkode\Form\ArticleForm $form
+ */
+?>
+<?php $this->layout('/layout_admin.phtml') ?>
+
+<?php $this->block('content') ?>
+    <div class="container spaced grid">
+        <h1>Artikel erstellen</h1>
+    </div>
+
+    <div class="container spaced">
+        <?= $form->open() ?>
+
+        <?= $form->getField('title') ?>
+
+        <?= $form->getField('text') ?>
+
+        <hr />
+
+        <?= $form->getField('button') ?>
+
+        <?= $form->close() ?>
+
+    </div>
+
+<?php $this->endBlock('content') ?>

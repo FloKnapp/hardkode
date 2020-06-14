@@ -287,7 +287,12 @@ class Renderer implements LoggerAwareInterface
             /** @var AbstractViewHelper $class */
             $class = Initializer::load($viewHelper, [$this, $this->config]);
 
-            return $this->_callUserFuncArray($class, $arguments);
+            try {
+                return $this->_callUserFuncArray($class, $arguments);
+            } catch (\Throwable $t) {
+                $this->clearOutputBuffer();
+                $this->getLogger()->error('ViewHelperException: ' . $t->getMessage(), ['exception' => $t]);
+            }
 
         }
 

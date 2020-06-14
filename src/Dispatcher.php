@@ -88,8 +88,14 @@ class Dispatcher implements EntityManagerAwareInterface, LoggerAwareInterface, S
             }
 
             $this->logger->debug('Matched route "' . $name . '" for path "' . $path . '".');
-
             $segments = $this->getPathSegments($path, $route['path']);
+
+            if (false === $this->hasConstraintMatch($segments, $route['constraints'] ?? [])) {
+                continue;
+            }
+
+            $this->logger->debug('Matched route constraints for path "' . $path . '".');
+
             array_shift($segments);
 
             return $route + ['parameters' => $segments];
@@ -108,6 +114,28 @@ class Dispatcher implements EntityManagerAwareInterface, LoggerAwareInterface, S
     {
         $matches = $this->matchPath($path, $configPath);
         return !empty($matches[0]);
+    }
+
+    /**
+     * @param array $pathParameters
+     * @param array $constraints
+     * @return bool
+     */
+    private function hasConstraintMatch(array $pathParameters, array $constraints)
+    {
+        $result = [];
+
+        foreach ($pathParameters as $key => $value) {
+
+            $constraint = $constraints[$key] ?? null;
+
+            if (null !== $constraint) {
+                $result[] = (bool)preg_match('/' . $constraint . '/', $value);
+            }
+
+        }
+
+        return !in_array(false, $result, true);
     }
 
     /**

@@ -9,10 +9,10 @@ use Hardkode\Form\Builder\Validator\NotEmpty;
 use Psr\Http\Message\RequestInterface;
 
 /**
- * Class Login
+ * Class LoginForm
  * @package Hardkode\Form
  */
-class Login extends AbstractBuilder
+class LoginForm extends AbstractBuilder
 {
 
     /**
