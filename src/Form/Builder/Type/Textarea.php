@@ -11,6 +11,9 @@ use Hardkode\Form\Builder\AbstractType;
 class Textarea extends AbstractType
 {
 
+    /**
+     * @return string
+     */
     public function render()
     {
         $textareaValue = null;
@@ -33,8 +36,6 @@ class Textarea extends AbstractType
         $result .= '>' . $textareaValue . '</textarea>';
 
         return $result;
-
-
     }
 
 }
