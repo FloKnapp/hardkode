@@ -66,13 +66,11 @@ class AdminController extends PageController
     {
         $this->requiresPermission('admin');
 
-        $form = new ArticleForm($this->getRequest());
+        $form = $this->createForm(ArticleForm::class);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             echo "Ja";
             die();
-
         }
 
         return $this->render('/admin/article-form.phtml', [

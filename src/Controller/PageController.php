@@ -92,9 +92,6 @@ class PageController extends AbstractController
      */
     public function addDefaultAssets()
     {
-        $this->getRenderer()->addScript('/js/namespace.js');
-
-
         $this->getRenderer()->addScript('/js/dropdown.js');
         $this->getRenderer()->addScript('/js/hyperlink.js');
         $this->getRenderer()->addStylesheet('/css/main.css');

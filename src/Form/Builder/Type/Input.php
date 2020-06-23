@@ -20,9 +20,7 @@ class Input extends AbstractType
     public function __construct(array $definition, array $validators = [])
     {
         parent::__construct($definition, $validators);
-
-        Assert::that($definition)->notEmptyKey('type');
-
+        Assert::that($definition)->notEmptyKey('type', 'You have to define the input type (e.g. text, date, number, etc.).');
         $this->definition = $definition;
     }
 

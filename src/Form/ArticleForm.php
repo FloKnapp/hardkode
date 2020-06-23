@@ -25,13 +25,16 @@ class ArticleForm extends AbstractBuilder
         $this->add(Input::class, [
             'type' => 'text',
             'name' => 'title',
+            'placeholder' => 'Titel'
         ], [
             NotEmpty::class
         ]);
 
         $this->add(Textarea::class, [
             'name' => 'text',
-            'type' => 'textarea'
+            'type' => 'textarea',
+            'rows' => '12',
+            'placeholder' => 'Text'
         ], [
             NotEmpty::class
         ]);

@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Hardkode\Form;
-
 
 use Hardkode\Form\Builder\AbstractBuilder;
 use Hardkode\Form\Builder\Type\Button;
@@ -11,9 +9,17 @@ use Hardkode\Form\Builder\Type\Textarea;
 use Hardkode\Form\Builder\Validator\NotEmpty;
 use Psr\Http\Message\RequestInterface;
 
+/**
+ * Class ContactForm
+ * @package Hardkode\Form
+ */
 class ContactForm extends AbstractBuilder
 {
 
+    /**
+     * @param RequestInterface $request
+     * @throws \ReflectionException
+     */
     public function create(RequestInterface $request)
     {
         $this->add(Input::class, [

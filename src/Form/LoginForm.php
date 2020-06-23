@@ -17,13 +17,11 @@ class LoginForm extends AbstractBuilder
 
     /**
      * @param RequestInterface $request
-     *
-     * @return void
+     * @throws \ReflectionException
      */
     public function create(RequestInterface $request)
     {
-        $this->add(Input::class,
-            [
+        $this->add(Input::class, [
                 'type'          => 'text',
                 'name'          => 'username',
                 'placeholder'   => 'form.field.placeholder.username',
