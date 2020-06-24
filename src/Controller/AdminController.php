@@ -5,6 +5,7 @@ namespace Hardkode\Controller;
 use Hardkode\Exception\PermissionException;
 use Hardkode\Form\ArticleForm;
 use Hardkode\Model\Article;
+use Hardkode\Model\User;
 use Hardkode\Service\Paginator;
 use ORM\Exception\IncompletePrimaryKey;
 use ORM\Exception\NoEntity;
@@ -69,8 +70,31 @@ class AdminController extends PageController
         $form = $this->createForm(ArticleForm::class);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            echo "Ja";
-            die();
+
+            try {
+
+                $entity          = new Article();
+                $entity->title   = $form->getData()['title'];
+                $entity->content = $form->getData()['text'];
+                $author          = $this->getEntityManager()
+                    ->fetch(User::class, $this->getSession()->get('userId'));
+
+                $entity->setRelated('author', $author);
+
+                $entity->save();
+
+                return $this->redirect('admin:articles');
+
+            } catch (\PDOException $e) {
+
+                if (23000 === (int)$e->getCode()) {
+                    $this->getSession()->setFlashMessage('form.error', 'cms.title.unique.error');
+                }
+
+            } catch (NoEntity | IncompletePrimaryKey $e) {
+                $this->getSession()->setFlashMessage('form.error', $e->getMessage());
+            }
+
         }
 
         return $this->render('/admin/article-form.phtml', [

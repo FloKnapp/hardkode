@@ -24,7 +24,8 @@ class EntityManager extends ORMEntityManager
                 EntityManager::OPT_CONNECTION => [
                     'sqlite',
                     __DIR__ . '/../../database/db.sqlite'
-                ]
+                ],
+                \PDO::SQLITE_ATTR_OPEN_FLAGS => "COLLATION NOCASE"
             ];
 
         }
