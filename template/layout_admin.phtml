@@ -3,17 +3,15 @@
 <head>
     <title>HARDKODE | <?= $this->renderBlock('title', 'Tutorials, Tools und mehr..') ?></title>
     <?= $this->assetList('css') ?>
-    <link href="https://fonts.googleapis.com/css2?family=Economica:wght@400;700;900&family=Marvel&family=Palanquin&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,700;1,400;1,700&family=Economica:wght@400;700&display=swap" rel="stylesheet" />
 </head>
 <body>
 
     <header>
-        <a class="logo-container" href="/">
-            <div id="logo">
-                <span>HARD<strong>KODE</strong></span>
-            </div>
-        </a>
-        <div id="navigation">
+        <div id="logo"><a href="/">hardkode</a></div>
+        <div id="menu">
+            <?= $this->link('tutorials') ?>
+            <?= $this->link('downloads') ?>
             <?= $this->link('admin:articles') ?>
             <?= $this->link('admin:tools') ?>
 
@@ -32,6 +30,7 @@
     </div>
 
     <?= $this->assetList('js') ?>
+    <script src="/js/highlight.pack.js"></script>
 
 </body>
 </html>

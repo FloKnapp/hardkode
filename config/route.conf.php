@@ -17,17 +17,23 @@ return [
         'action' => 'tutorials',
         'link'   => 'Tutorials'
     ],
-    'tools' => [
-        'path'   => '/tools',
+    'downloads' => [
+        'path'   => '/downloads',
         'class'  => PageController::class,
         'action' => 'tools',
-        'link'   => 'Tools'
+        'link'   => 'Downloads'
     ],
     'contact' => [
         'path'   => '/contact',
         'class'  => PageController::class,
         'action' => 'contact',
         'link'   => 'Kontakt'
+    ],
+    'impress' => [
+        'path'   => '/impress',
+        'class'  => PageController::class,
+        'action' => 'impress',
+        'link'   => 'Impressum'
     ],
     'article' => [
         'path'   => '/article/:id',
@@ -44,7 +50,7 @@ return [
         'path'   => '/login',
         'class'  => UserController::class,
         'action' => 'login',
-        'link'   => 'LoginForm'
+        'link'   => 'Login'
     ],
     'logout' => [
         'path'   => '/logout',
