@@ -10,8 +10,8 @@ CREATE TABLE hk_article
     updated_by INTEGER
 );
 
-create unique index article_id_unique
-    on hk_article (id);
+CREATE UNIQUE INDEX article_id_unique
+    ON hk_article (id);
 
-create unique index article_title_unique
-    on hk_article (title collate nocase);
+CREATE UNIQUE INDEX article_title_unique
+    ON hk_article (title collate nocase);
