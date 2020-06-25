@@ -27,7 +27,7 @@ class PageController extends AbstractController
             $articleList = $this->getEntityManager()
                 ->fetch(Article::class)
                 ->orderBy('id', 'DESC')
-                ->all(5);
+                ->all(4);
 
         } catch (IncompletePrimaryKey | NoEntity $e) {
             $this->getLogger()->error($e->getMessage(), ['exception' => $e]);
