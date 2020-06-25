@@ -11,9 +11,9 @@ use Hardkode\Initializer;
 use Hardkode\Service\Session;
 use Hardkode\Service\EntityManager;
 use Nyholm\Psr7\Factory\Psr17Factory;
-use Nyholm\Psr7Server\ServerRequestCreator;
 use Psr\Http\Message\ResponseInterface;
 use Hardkode\Controller\ErrorController;
+use Nyholm\Psr7Server\ServerRequestCreator;
 
 error_reporting(E_ALL);
 ini_set('display_errors', 1);

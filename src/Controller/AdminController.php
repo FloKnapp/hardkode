@@ -73,8 +73,15 @@ class AdminController extends PageController
 
             try {
 
+                $title = $form->getData()['title'];
+                $titleExists = $this->getEntityManager()->fetch(Article::class)->where('title', '=', $title)->all();
+
+                if ($titleExists) {
+                    throw new \PDOException('Unique key constraint violation, Title "' . $title . '" already exists.', '23000');
+                }
+
                 $entity          = new Article();
-                $entity->title   = $form->getData()['title'];
+                $entity->title   = $title;
                 $entity->content = $form->getData()['text'];
                 $author          = $this->getEntityManager()
                     ->fetch(User::class, $this->getSession()->get('userId'));
