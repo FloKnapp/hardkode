@@ -9,6 +9,7 @@ use ORM\Entity;
  * @package Hardkode\Model
  *
  * @property string   $title
+ * @property string   $teaser
  * @property string   $content
  * @property User     $author
  * @property Category $category

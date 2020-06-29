@@ -25,6 +25,7 @@ $latestArticle = array_shift($articleList) ?? [];
     <div class="text">
         <div class="date"><?= $this->date($latestArticle->insertedAt)->format('d.m.Y // H:i') . ' Uhr' ?></div>
         <h1><?= $latestArticle->title ?></h1>
+        <span><?= $latestArticle->teaser ?></span>
     </div>
 
 </div>

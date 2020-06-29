@@ -16,7 +16,7 @@ class Date extends AbstractViewHelper
      * @param string $date
      * @return $this
      */
-    public function __invoke(string $date)
+    public function __invoke(?string $date)
     {
         try {
             $this->date = new \DateTime($date);
