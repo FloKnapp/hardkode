@@ -64,6 +64,12 @@ return [
         'action' => 'register',
         'link'   => 'Registrieren'
     ],
+    'api:upload' => [
+        'path' => '/upload',
+        'class' => \Hardkode\Controller\UploadController::class,
+        'action' => 'process',
+        'link' => 'Upload'
+    ],
     'admin:dashboard' => [
         'path'   => '/admin',
         'class'  => AdminController::class,

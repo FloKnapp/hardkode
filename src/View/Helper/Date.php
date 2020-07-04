@@ -19,7 +19,8 @@ class Date extends AbstractViewHelper
     public function __invoke(?string $date)
     {
         try {
-            $this->date = new \DateTime($date);
+            $this->date = new \DateTime($date, new \DateTimeZone('UTC'));
+            $this->date->setTimezone(new \DateTimeZone('Europe/Berlin'));
         } catch (\Exception $e) {
             $this->getLogger()->notice('Invalid date given: ' . $date, ['exception' => $e]);
             $this->date = '...';

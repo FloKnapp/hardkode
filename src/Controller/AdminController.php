@@ -116,4 +116,11 @@ class AdminController extends PageController
         return $this->render('/admin/tools.phtml');
     }
 
+    public function addDefaultAssets()
+    {
+        parent::addDefaultAssets();
+        $this->getRenderer()->addScript('/js/uploader.js');
+        $this->getRenderer()->addScript('/js/contextmenu.js');
+    }
+
 }
