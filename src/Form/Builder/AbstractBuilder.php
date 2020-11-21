@@ -2,6 +2,7 @@
 
 namespace Hardkode\Form\Builder;
 
+use Assert\Assert;
 use Hardkode\Form\Builder\Type\Csrf;
 use Hardkode\Form\Builder\Validator\Csrf as CsrfValidator;
 use Hardkode\Initializer;
@@ -98,6 +99,7 @@ abstract class AbstractBuilder implements LoggerAwareInterface, SessionAwareInte
      */
     protected function add(string $type, array $definition, array $validators = [])
     {
+        Assert::that($definition)->notEmptyKey('name', 'Attribute `name` is missing.');
         $this->fields[$definition['name']] = Initializer::load($type, [$definition, $validators]);
     }
 
@@ -117,7 +119,7 @@ abstract class AbstractBuilder implements LoggerAwareInterface, SessionAwareInte
         return sprintf(
             '<form method="%s" action="%s" enctype="%s">',
             $this->formAttributes['method'],
-            $this->formAttributes['action'],
+            $this->formAttributes['action'] ?? null,
             $this->formAttributes['enctype']
         );
     }

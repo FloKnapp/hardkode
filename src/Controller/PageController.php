@@ -27,7 +27,7 @@ class PageController extends AbstractController
             $articleList = $this->getEntityManager()
                 ->fetch(Article::class)
                 ->orderBy('id', 'DESC')
-                ->all(5);
+                ->all(4);
 
         } catch (IncompletePrimaryKey | NoEntity $e) {
             $this->getLogger()->error($e->getMessage(), ['exception' => $e]);
@@ -92,9 +92,6 @@ class PageController extends AbstractController
      */
     public function addDefaultAssets()
     {
-        $this->getRenderer()->addScript('/js/namespace.js');
-
-
         $this->getRenderer()->addScript('/js/dropdown.js');
         $this->getRenderer()->addScript('/js/hyperlink.js');
         $this->getRenderer()->addStylesheet('/css/main.css');

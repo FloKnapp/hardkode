@@ -7,9 +7,9 @@
 <?php $this->layout('/layout_admin.phtml') ?>
 
 <?php $this->block('content') ?>
-    <div class="container spaced grid">
+    <div class="grid">
         <h1>Artikel</h1>
-        <a class="ribbon add" style="float: right;" href="/admin/article/add">Artikel hinzufügen</a>
+        <a class="ribbon add" style="float: right;" href="/admin/article/create">Artikel hinzufügen</a>
     </div>
 
     <div class="container spaced">
@@ -28,9 +28,11 @@
                 <td style="text-align: center;"><?= $article->id ?></td>
                 <td><?= $article->title ?></td>
                 <td><?= $article->author->name ?></td>
-                <td style="text-align: right;">
-                    <a class="icon icon-pencil" href="/admin/article/<?= $article->id ?>/edit"></a>
-                    <a class="icon icon-bin" href="/admin/article/<?= $article->id ?>/delete"></a>
+                <td>
+                    <div class="options">
+                        <a class="icon icon-pencil" href="/admin/article/<?= $article->id ?>/edit"></a>
+                        <a class="icon icon-bin" href="/admin/article/<?= $article->id ?>/delete"></a>
+                    </div>
                 </td>
             </tr>
 

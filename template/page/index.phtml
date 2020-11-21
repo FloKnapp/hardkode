@@ -1,6 +1,11 @@
 <?php
+
+use Hardkode\Model\Article;
+
 /**
- * @var Hardkode\Model\Article[] $articleList
+ * @var Article[] $articleList
+ * @var Article   $article
+ * @var Article   $latestArticle
  */
 ?>
 <?php $this->layout('/layout.phtml') ?>
@@ -11,31 +16,31 @@ Startseite
 
 <?php $this->block('content') ?>
 
-<div class="container spaced">
-    <h1>Herzlich Willkommen!</h1>
-</div>
+<?php
+$latestArticle = array_shift($articleList) ?? [];
+?>
 
-<div class="container spaced">
-    <div class="personal-profile grid">
-        <div class="personal-image round"></div>
-        <div>
-            Nun hast Du es wirklich auf meine Seite geschafft.<br />
-            <strong>Servus!</strong> I bims, der Flo.
+<div class="stage">
+
+    <div class="text">
+        <div class="date">
+            <?= $this->date($latestArticle->insertedAt)->format('d.m.Y // H:i') . ' Uhr' ?>
         </div>
+        <h1><?= $latestArticle->title ?></h1>
+        <span class="teaser"><?= $latestArticle->teaser ?></span>
+
     </div>
 
-    <h2>Neueste Einträge</h2>
+</div>
 
-    <?php /** @var \Hardkode\Model\Article $article */
-    foreach ($articleList as $article): ?>
+<div class="grid">
 
-        <div class="box link" data-href="/article/<?= $article->id ?>">
-            <span class="font-small">
-                <?= $this->date($article->insertedAt)->format('d.m.Y - H:i') . ' Uhr' ?>
-            </span>
-            <span><?= $article->title ?></span>
+    <?php foreach ($articleList as $article): ?>
+
+        <div class="box">
+            <div class="date"><?= $this->date($article->insertedAt)->format('d.m.Y // H:i') . ' Uhr' ?></div>
+            <h3><?= $article->title ?></h3>
         </div>
-
 
     <?php endforeach; ?>
 

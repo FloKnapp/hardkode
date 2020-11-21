@@ -11,9 +11,14 @@
     </div>
 
     <div class="container spaced">
+
+        <?= $this->showMessage('form.error') ?>
+
         <?= $form->open() ?>
 
         <?= $form->getField('title') ?>
+
+        <hr />
 
         <?= $form->getField('text') ?>
 

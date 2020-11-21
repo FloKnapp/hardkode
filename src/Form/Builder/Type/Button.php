@@ -15,7 +15,7 @@ class Button extends AbstractType
     public function __construct(array $definition)
     {
         parent::__construct($definition);
-        Assert::that($definition)->notEmptyKey('text');
+        Assert::that($definition)->notEmptyKey('text', 'You have to define a button text.');
         $this->definition = $definition;
     }
 

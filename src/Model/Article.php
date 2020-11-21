@@ -7,6 +7,15 @@ use ORM\Entity;
 /**
  * Class Article
  * @package Hardkode\Model
+ *
+ * @property string   $title
+ * @property string   $teaser
+ * @property string   $content
+ * @property User     $author
+ * @property Category $category
+ * @property string   $insertedAt
+ * @property string   $updatedAt
+ * @property string   $updatedBy
  */
 class Article extends Entity
 {

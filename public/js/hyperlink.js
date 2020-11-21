@@ -1,7 +1,3 @@
-window.namespace('hardkode.system.hyperlink', [], function() {
+(function() {
 
-    return {
-        krass2: function() {}
-    };
-
-});
+})();

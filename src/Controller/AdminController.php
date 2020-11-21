@@ -5,6 +5,7 @@ namespace Hardkode\Controller;
 use Hardkode\Exception\PermissionException;
 use Hardkode\Form\ArticleForm;
 use Hardkode\Model\Article;
+use Hardkode\Model\User;
 use Hardkode\Service\Paginator;
 use ORM\Exception\IncompletePrimaryKey;
 use ORM\Exception\NoEntity;
@@ -66,12 +67,40 @@ class AdminController extends PageController
     {
         $this->requiresPermission('admin');
 
-        $form = new ArticleForm($this->getRequest());
+        $form = $this->createForm(ArticleForm::class);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            echo "Ja";
-            die();
+            try {
+
+                $title = $form->getData()['title'];
+                $titleExists = $this->getEntityManager()->fetch(Article::class)->where('title', '=', $title)->all();
+
+                if ($titleExists) {
+                    throw new \PDOException('Unique key constraint violation, Title "' . $title . '" already exists.', '23000');
+                }
+
+                $entity          = new Article();
+                $entity->title   = $title;
+                $entity->content = $form->getData()['text'];
+                $author          = $this->getEntityManager()
+                    ->fetch(User::class, $this->getSession()->get('userId'));
+
+                $entity->setRelated('author', $author);
+
+                $entity->save();
+
+                return $this->redirect('admin:articles');
+
+            } catch (\PDOException $e) {
+
+                if (23000 === (int)$e->getCode()) {
+                    $this->getSession()->setFlashMessage('form.error', 'cms.title.unique.error');
+                }
+
+            } catch (NoEntity | IncompletePrimaryKey $e) {
+                $this->getSession()->setFlashMessage('form.error', $e->getMessage());
+            }
 
         }
 
@@ -85,6 +114,13 @@ class AdminController extends PageController
         $this->requiresPermission('admin');
 
         return $this->render('/admin/tools.phtml');
+    }
+
+    public function addDefaultAssets()
+    {
+        parent::addDefaultAssets();
+        $this->getRenderer()->addScript('/js/uploader.js');
+        $this->getRenderer()->addScript('/js/contextmenu.js');
     }
 
 }

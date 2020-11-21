@@ -7,8 +7,6 @@
 
 <?php $this->block('content') ?>
 
-<div class="container spaced">
-
     <div id="login">
 
         <h2>Login</h2>
@@ -21,10 +19,10 @@
             <?= $form->getField('csrf')->getErrorMessages() ?>
 
             <div class="grid vertical">
-                <div class="width-100">
+                <div>
                     <?= $form->getField('username') ?>
                 </div>
-                <div class="width-100">
+                <div>
                     <?= $form->getField('password') ?>
                 </div>
             </div>
@@ -36,8 +34,5 @@
         <?= $form->close() ?>
 
     </div>
-
-
-</div>
 
 <?php $this->endBlock('content') ?>

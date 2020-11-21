@@ -16,6 +16,8 @@ use Hardkode\Service\TranslatorAwareTrait;
 abstract class AbstractType implements TranslatorAwareInterface, SessionAwareInterface
 {
 
+    const PATTERN_ERROR_MESSAGE = '<div class="error-message" data-type="%s" data-name="%s">%s</div>';
+
     use TranslatorAwareTrait;
     use SessionAwareTrait;
 
@@ -130,10 +132,8 @@ abstract class AbstractType implements TranslatorAwareInterface, SessionAwareInt
             return $output;
         }
 
-        $pattern = '<div class="error-message" data-type="%s" data-name="%s">%s</div>';
-
         foreach ($this->errorMessages as $message) {
-            $output .= sprintf($pattern, $this->definition['type'] ?? 'unknown', $this->getName(), $message);
+            $output .= sprintf(static::PATTERN_ERROR_MESSAGE, $this->definition['type'] ?? 'unknown', $this->getName(), $message);
         }
 
         return $output;

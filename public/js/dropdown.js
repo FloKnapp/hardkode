@@ -1,9 +1,3 @@
-window.namespace('hardkode.system.dropdown', hardkode.system.hyperlink, function(hyperlink) {
+(function() {
 
-    console.log(hyperlink);
-
-    return {
-        krass: function() {}
-    };
-
-});
+})();
