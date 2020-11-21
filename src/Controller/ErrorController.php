@@ -54,4 +54,23 @@ EXCEPTION;
 
     }
 
+    /**
+     * @param \Throwable $t
+     */
+    public function onNotFound(\Throwable $t)
+    {
+        if ($t instanceof NotFoundException) {
+            echo (string)$this->render('/error/404.phtml')->getBody();
+            $this->getLogger()->error($t->getMessage());
+            exit(0);
+        }
+
+        echo <<<EXCEPTION
+<h2>Exception</h2>
+<h3>{$t->getMessage()}</h3>
+<h5>{$t->getFile()}:{$t->getLine()}</h5>
+EXCEPTION;
+
+    }
+
 }
